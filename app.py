@@ -46,6 +46,17 @@ def get_trade_book():
     except Exception as e:
         return jsonify({"error": str(e)}), 500
 
+@app.route("/get_funds")
+def get_funds():
+    try:
+        client_id = request.args.get("clientId", "")
+        access_token = request.args.get("accessToken", "")
+        dhan = dhanhq(client_id, access_token)
+        position_data = dhan.get_fund_limits()
+        return jsonify(position_data)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
 
 if __name__ == "__main__":
     app.run(debug=True)
